@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -21,19 +21,19 @@ jobs:
         run: go test -v ./...
 
       - name: Fuzz Block NewBlock
-        run: go test -fuzz=FuzzBlockNewBlock -fuzztime=10m
+        run: go test ./internal/core -fuzz=FuzzBlockNewBlock -fuzztime=10m
 
       - name: Fuzz Block CalculateHash
-        run: go test -fuzz=FuzzBlockCalculateHash -fuzztime=10m
+        run: go test ./internal/core -fuzz=FuzzBlockCalculateHash -fuzztime=10m
 
       - name: Fuzz MerkleTree
-        run: go test -fuzz=FuzzMerkleTree -fuzztime=10m
+        run: go test ./internal/core -fuzz=FuzzMerkleTree -fuzztime=10m
 
       - name: Fuzz Blockchain AddBlock
-        run: go test -fuzz=FuzzBlockchainAddBlock -fuzztime=10m
+        run: go test ./internal/core -fuzz=FuzzBlockchainAddBlock -fuzztime=10m
 
       - name: Fuzz Blockchain ValidateBlock
-        run: go test -fuzz=FuzzBlockchainValidateBlock -fuzztime=10m
+        run: go test ./internal/core -fuzz=FuzzBlockchainValidateBlock -fuzztime=10m
 
       - name: Fuzz Blockchain CalculateHash
-        run: go test -fuzz=FuzzBlockchainCalculateHash -fuzztime=10m
+        run: go test ./internal/core -fuzz=FuzzBlockchainCalculateHash -fuzztime=10m
