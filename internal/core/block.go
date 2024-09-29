@@ -70,8 +70,10 @@ func NewBlock(version interface{}, height interface{}, prevBlockHash interface{}
 	if !ok {
 		return nil, fmt.Errorf("invalid previous block hash type")
 	}
-	if pbh == "" {
-		return nil, fmt.Errorf("previous block hash cannot be empty")
+
+	// Allow empty string for genesis block
+	if pbh == "" && h != 0 {
+		return nil, fmt.Errorf("previous block hash can only be empty for genesis block")
 	}
 
 	var d []Data

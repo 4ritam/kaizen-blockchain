@@ -1,0 +1,39 @@
+name: Go
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.23
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Fuzz Block NewBlock
+        run: go test -fuzz=FuzzBlockNewBlock -fuzztime=10m
+
+      - name: Fuzz Block CalculateHash
+        run: go test -fuzz=FuzzBlockCalculateHash -fuzztime=10m
+
+      - name: Fuzz MerkleTree
+        run: go test -fuzz=FuzzMerkleTree -fuzztime=10m
+
+      - name: Fuzz Blockchain AddBlock
+        run: go test -fuzz=FuzzBlockchainAddBlock -fuzztime=10m
+
+      - name: Fuzz Blockchain ValidateBlock
+        run: go test -fuzz=FuzzBlockchainValidateBlock -fuzztime=10m
+
+      - name: Fuzz Blockchain CalculateHash
+        run: go test -fuzz=FuzzBlockchainCalculateHash -fuzztime=10m
